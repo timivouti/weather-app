@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
 	#divtemp {
 		max-width:600px;
@@ -24,40 +23,21 @@
 
 	
 function getWeather() {
-	var firstData;
-var firstUrl = "citylist.json";	
-$.ajax({
-  dataType: "json",
-  url: firstUrl,
-  data: firstData,
-  success: getData
-});
+	var y = document.getElementById('textarea').value;
+	var h = 'http://api.openweathermap.org/data/2.5/weather?q=' + y + '&APPID=e3c9c1caa370fe4734d99684d4aec406';
+	var client = new XMLHttpRequest();
+	client.open('GET', h);
+	client.onreadystatechange = function() {
+	var tempObj = JSON.parse(client.responseText);
+	console.log(tempObj);
+	var thenewTemperature = tempObj.list[0].main.temp + "C";
+	var theWeather = tempObj.list[0].weather[0].description;
 
-}
-	
-function getData() {
-	var secondData;
-	for (var i = 0; i < firstData.length; i++) {
-	if (firstData.name[i] === document.getElementById('textarea').value) {
-		y = firstData[i].id;
-		var secondUrl = "http://api.openweathermap.org/data/2.5/forecast?id=" + y + "&APPID=e3c9c1caa370fe4734d99684d4aec406&units=metric"
-		l$.ajax({
-		dataType: "json",
-  		url: secondUrl,
-  		data: secondData,
-  		success: drawData
-});
+	document.getElementById('temperature').innerHTML = thenewTemperature + "<br>" + theWeather;
+	};
+	client.send();
 	}
-	else {
-		document.getElementById('divtemp').innerHTML = "City was not found";
-	}
-	}
-}
-	
-function drawData() {
-	var thenewTemperature = secondData.list[0].main.temp + "C";
-	document.getElementById('divtemp').innerHTML = thenewTemperature;
-}
+
 </script>
 </head>
 
