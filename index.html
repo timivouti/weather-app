@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<style>
+	#divtemp {
+		max-width:600px;
+		width:100%;
+		margin-left:auto;
+		margin-right:auto;
+		height:100px;
+	}
+</style>
+
+<title>WEATHER APP</title>
+<link href="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.css" rel="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
+<script>
+
+
+
+	
+function getWeather() {
+	var firstData;
+var firstUrl = "citylist.json";	
+$.ajax({
+  dataType: "json",
+  url: firstUrl,
+  data: firstData,
+  success: getData
+});
+
+}
+	
+function getData() {
+	var secondData;
+	for (var i = 0; i < firstData.length; i++) {
+	if (firstData.name[i] === document.getElementById('textarea').value) {
+		y = firstData[i].id;
+		var secondUrl = "http://api.openweathermap.org/data/2.5/forecast?id=" + y + "&APPID=e3c9c1caa370fe4734d99684d4aec406&units=metric"
+		l$.ajax({
+		dataType: "json",
+  		url: secondUrl,
+  		data: secondData,
+  		success: drawData
+});
+	}
+	else {
+		document.getElementById('divtemp').innerHTML = "City was not found";
+	}
+	}
+}
+	
+function drawData() {
+	var thenewTemperature = secondData.list[0].main.temp + "C";
+	document.getElementById('divtemp').innerHTML = thenewTemperature;
+}
+</script>
+</head>
+
+<body>
+<div data-role="page" id="page">
+  <div data-role="header">
+    <h1>Weather App</h1>
+  </div>
+  <div data-role="content">
+    <div data-role="fieldcontain">
+      <label for="textarea">Enter your city:</label>
+      <textarea cols="1" rows="1" name="textarea" id="textarea"></textarea>
+      <input type="button" value="Find" onclick="getWeather()"/>
+    </div>
+    <div id="divtemp">
+    <span id="spantemp" style="text-align: center;width:100%">
+    	<h2 id="temperature"></h2>
+    </span>
+	  </div>
+  </div>
+  <div data-role="footer">
+    <h4>By Timi Voutilainen</h4>
+  </div>
+</div>
+</body>
+</html>
