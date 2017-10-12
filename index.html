@@ -24,16 +24,22 @@
 	
 function getWeather() {
 	var y = document.getElementById('textarea').value;
-	var h = 'http://api.openweathermap.org/data/2.5/weather?q=' + y + '&APPID=e3c9c1caa370fe4734d99684d4aec406';
+	var h = "http://api.openweathermap.org/data/2.5/weather?q=" + y + "&units=metric&APPID=e3c9c1caa370fe4734d99684d4aec406";
 	var client = new XMLHttpRequest();
 	client.open('GET', h);
 	client.onreadystatechange = function() {
+	if (client.readyState= 4 && client.status===200) {
 	var tempObj = JSON.parse(client.responseText);
 	console.log(tempObj);
-	var thenewTemperature = tempObj.list[0].main.temp + "C";
-	var theWeather = tempObj.list[0].weather[0].description;
-
+	var thenewTemperature = tempObj.main.temp + "C";
+	var theWeather = tempObj.weather[0].description;
+	
+		
 	document.getElementById('temperature').innerHTML = thenewTemperature + "<br>" + theWeather;
+	}
+		else {
+			document.getElementById('temperature').innerHTML = "City was not found."
+		}
 	};
 	client.send();
 	}
