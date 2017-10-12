@@ -11,6 +11,11 @@
 		margin-right:auto;
 		height:100px;
 	}
+	.icon {
+		display:block;
+		margin-left: auto;
+		margin-right:auto;
+	}
 </style>
 
 <title>WEATHER APP</title>
@@ -32,10 +37,13 @@ function getWeather() {
 	var tempObj = JSON.parse(client.responseText);
 	console.log(tempObj);
 	var thenewTemperature = tempObj.main.temp + "C";
-	var theWeather = tempObj.weather[0].description;
+	var theWeather = tempObj.weather[0].icon;
+	var theWeathericon = "http://openweathermap.org/img/w/" + theWeather;
 	
-		
-	document.getElementById('temperature').innerHTML = thenewTemperature + "<br>" + theWeather;
+	
+	
+	document.getElementById('iconimg').innerHTML = '<img src="' + theWeathericon + '.png" class="icon">';
+	document.getElementById('temperature').innerHTML = thenewTemperature + "<br>";
 	}
 		else {
 			document.getElementById('temperature').innerHTML = "City was not found."
@@ -59,6 +67,9 @@ function getWeather() {
       <input type="button" value="Find" onclick="getWeather()"/>
     </div>
     <div id="divtemp">
+    <span id="iconimg" style="width:50px; height:50px">
+    	
+    </span>
     <span id="spantemp" style="text-align: center;width:100%">
     	<h2 id="temperature"></h2>
     </span>
